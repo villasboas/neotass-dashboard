@@ -28,6 +28,15 @@ function importarPlanilha( input ) {
     if ( input.val() ) $( '#import-form' ).submit();
 }
 
+function fileToBlob( input, callback ) {
+    var file = input[0].files[0];
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL( file );
+    fileReader.onload = function( e ) {
+        callback( e.target.result );
+    }
+}
+
 
 /**
  * preencherSelect

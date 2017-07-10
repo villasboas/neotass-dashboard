@@ -24,8 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'http://localhost/neotass/neotass-dashboard/';
-$config['base_url'] = 'http://localhost/Projetos/neotass/neotass-dashboard/';
-// $config['base_url'] = 'http://codeback-dev.umbler.net';
+// $config['base_url'] = 'http://localhost/Projetos/neotass/neotass-dashboard/';
+$config['base_url'] = 'http://codeback-dev.umbler.net';
 
 /*
 |--------------------------------------------------------------------------

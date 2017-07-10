@@ -15,7 +15,8 @@ class CategoriasFinder extends MY_Model {
 
     // labels
     public $labels = [
-        'nome'  => 'Nome'
+        'nome'  => 'Nome',
+        'foto'  => 'Foto'
     ];
 
    /**
@@ -46,7 +47,7 @@ class CategoriasFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table )
-        ->select( 'CodCategoria as Código, Nome, CodCategoria as Ações' );
+        ->select( 'CodCategoria as Código, Nome, Foto, CodCategoria as Ações' );
         return $this;
     }
 }

@@ -16,6 +16,9 @@ class Categorias extends MY_Controller {
         
         // carrega o finder
         $this->load->finder( [ 'CategoriasFinder' ] );
+
+        // carrega a librarie de fotos
+		$this->load->library( 'Picture' );
         
         // chama o modulo
         $this->view->module( 'navbar' )->module( 'aside' );
@@ -35,10 +38,6 @@ class Categorias extends MY_Controller {
                 'field' => 'nome',
                 'label' => 'Nome',
                 'rules' => 'required|min_length[3]|max_length[32]|trim'
-            ], [
-                'field' => 'foto',
-                'label' => 'Foto',
-                'rules' => 'required'
             ]
         ];
 
@@ -68,6 +67,11 @@ class Categorias extends MY_Controller {
 		->onApply( 'Ações', function( $row, $key ) {
 			echo '<a href="'.site_url( 'categorias/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
 			echo '<a href="'.site_url( 'categorias/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+		})
+
+        // seta as funcoes nas colunas
+		->onApply( 'Foto', function( $row, $key ) {
+			echo '<img src="'.base_url( 'uploads/'.$row[$key] ).'" style="width: 50px; height: 50px;">';
 		})
 
 		// renderiza o grid
@@ -137,10 +141,30 @@ class Categorias extends MY_Controller {
     */
     public function salvar() {
 
-        // instancia um novo objeto grupo
-        $categoria = $this->CategoriasFinder->getCategoria();
+        // faz o upload da imagem
+        $file_name = $this->picture->upload( 'foto', [ 'square' => 200 ] );
+
+        if ( $this->input->post( 'cod' ) ) {
+            $categoria = $this->CategoriasFinder->key( $this->input->post( 'cod' ) )->get( true );
+        } else {
+
+            // instancia um novo objeto grpo
+            $categoria = $this->CategoriasFinder->getCategoria();
+        }
+
         $categoria->setNome( $this->input->post( 'nome' ) );
         $categoria->setCod( $this->input->post( 'cod' ) );
+
+        if( !$file_name && !$categoria->foto ) {
+            $this->view->set( 'categoria', $categoria );
+            $this->view->set( 'errors', 'Escolha uma foto!' );
+            return;
+        }
+
+        if ( $file_name ) {
+            $this->picture->delete( $categoria->foto );
+            $categoria->setFoto( $file_name );
+        }
 
         // verifica se o formulario é valido
         if ( !$this->_formularioCategorias() ) {

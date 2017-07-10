@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'categorias/salvar', [ 'class' => 'card container fade-in' ] )?>
+    <?php echo form_open_multipart( 'categorias/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Nova categoria</h2>
@@ -23,33 +23,26 @@
                             name="nome" 
                             required
                             value="<?php echo $categoria ? $categoria->nome : ''; ?>"
-                            placeholder="Minas Gerais">
+                            placeholder="Celulares">
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="fotofile">Foto</label>
-                    <input  type="file" 
-                            class="form-control" 
-                            id="fotofile" 
-                            name="fotofile" 
-                            required
-                            value="<?php echo $categoria ? $categoria->fotoFile : ''; ?>"
-                            placeholder="Minas Gerais">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input  type="file" 
-                            class="form-control" 
-                            id="foto" 
-                            name="foto" 
-                            required
-                            value="<?php echo $categoria ? $categoria->foto : ''; ?>">
+                    <label for="foto">Foto</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php if( $categoria ): ?>
+                                <img src="<?php echo base_url( 'uploads/'.$categoria->foto )?>" class="img-thumbnail" style="width: 100px; height: 100px;">  
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                        <input  type="file" 
+                                class="form-control" 
+                                id="foto" 
+                                name="foto" >
                 </div>
             </div>
         </div>
