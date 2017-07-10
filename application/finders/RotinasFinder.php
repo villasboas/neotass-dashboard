@@ -49,7 +49,7 @@ class RotinasFinder extends MY_Model {
     public function grid() {
         $this->db->from( $this->table.' r' )
         ->select( 'r.rid as Código, rotina, c.Nome, link, rid as Ações' )
-       ->join( 'Classificacoes c', 'r.CodClassificacao = c.CodClassificacao' );
+       ->join( 'Classificacoes c', 'r.CodClassificacao = c.CodClassificacao', 'left' );
         return $this;
     }
 }

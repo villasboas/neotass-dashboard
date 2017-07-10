@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Departamentos extends MY_Controller {
+class Clusters extends MY_Controller {
 
     // indica se o controller é publico
 	protected $public = false;
@@ -15,19 +15,19 @@ class Departamentos extends MY_Controller {
         parent::__construct();
         
         // carrega o finder
-        $this->load->finder( [ 'DepartamentosFinder' ] );
+        $this->load->finder( [ 'ClustersFinder' ] );
         
         // chama o modulo
         $this->view->module( 'navbar' )->module( 'aside' );
     }
 
    /**
-    * _formularioEstados
+    * _formularioCluster
     *
     * valida o formulario de estados
     *
     */
-    private function _formularioDepartamento() {
+    private function _formularioCluster() {
 
         // seta as regras
         $rules = [
@@ -35,10 +35,6 @@ class Departamentos extends MY_Controller {
                 'field' => 'nome',
                 'label' => 'Nome',
                 'rules' => 'required|min_length[3]|max_length[32]|trim'
-            ], [
-                'field' => 'cor',
-                'label' => 'Cor',
-                'rules' => 'required'
             ]
         ];
 
@@ -56,31 +52,30 @@ class Departamentos extends MY_Controller {
 	public function index() {
 
         // faz a paginacao
-		$this->DepartamentosFinder->grid()
+		$this->ClustersFinder->grid()
 
 		// seta os filtros
-        ->addFilter( 'Nome', 'text' )
+        ->addFilter( 'nome', 'text' )
 		->filter()
 		->order()
 		->paginate( 0, 20 )
 
 		// seta as funcoes nas colunas
 		->onApply( 'Ações', function( $row, $key ) {
-			echo '<a href="'.site_url( 'departamentos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
-			echo '<a href="'.site_url( 'departamentos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
-		})
-        ->onApply( 'Cor', function( $row, $key ) {
-			echo '<span style="display: inline-block; height: 20px; width: 20px; background:'.$row['Cor'].'"></span>';           
+			echo '<a href="'.site_url( 'clusters/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'clusters/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
 		})
 
 		// renderiza o grid
-		->render( site_url( 'departamentos/index' ) );
+		->render( site_url( 'clusters/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'departamentos/adicionar' ) );
+        $this->view
+        ->set( 'add_url', site_url( 'clusters/adicionar' ) )
+        ->set( 'import_url', site_url( 'clusters/importar_planilha' ) );
 
 		// seta o titulo da pagina
-		$this->view->setTitle( 'Departamentos - listagem' )->render( 'grid' );
+		$this->view->setTitle( 'Clusters - Listagem' )->render( 'grid' );
     }
 
    /**
@@ -92,7 +87,7 @@ class Departamentos extends MY_Controller {
     public function adicionar() {
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar departamento' )->render( 'forms/departamento' );
+        $this->view->setTitle( 'Adicionar cluster' )->render( 'forms/cluster' );
     }
 
    /**
@@ -104,19 +99,19 @@ class Departamentos extends MY_Controller {
     public function alterar( $key ) {
 
         // carrega o cargo
-        $departamento = $this->DepartamentosFinder->key( $key )->get( true );
+        $cluster = $this->ClustersFinder->key( $key )->get( true );
 
         // verifica se o mesmo existe
-        if ( !$departamento ) {
-            redirect( 'departamentos/index' );
+        if ( !$cluster ) {
+            redirect( 'clusters/index' );
             exit();
         }
 
         // salva na view
-        $this->view->set( 'departamento', $departamento );
+        $this->view->set( 'cluster', $cluster );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Alterar departamento' )->render( 'forms/departamento' );
+        $this->view->setTitle( 'Alterar cluster' )->render( 'forms/cluster' );
     }
 
    /**
@@ -126,9 +121,9 @@ class Departamentos extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $departamento = $this->DepartamentosFinder->getDepartamento();
-        $departamento->setCod( $key );
-        $departamento->delete();
+        $cluster = $this->ClustersFinder->getCluster();
+        $cluster->setCod( $key );
+        $cluster->delete();
         $this->index();
     }
 
@@ -141,26 +136,43 @@ class Departamentos extends MY_Controller {
     public function salvar() {
 
         // instancia um novo objeto grupo
-        $departamento = $this->DepartamentosFinder->getDepartamento();
-        $departamento->setNome( $this->input->post( 'nome' ) );
-        $departamento->setCor( $this->input->post( 'cor' ) );
-        $departamento->setCod( $this->input->post( 'cod' ) );
+        $cluster = $this->ClustersFinder->getCluster();
+        $cluster->setNome( $this->input->post( 'nome' ) );
+        $cluster->setCod( $this->input->post( 'cod' ) );
 
         // verifica se o formulario é valido
-        if ( !$this->_formularioDepartamento() ) {
+        if ( !$this->_formularioCluster() ) {
 
             // seta os erros de validacao            
-            $this->view->set( 'departamento', $departamento );
+            $this->view->set( 'cluster', $cluster );
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar departamento' )->render( 'forms/departamento' );
+            $this->view->setTitle( 'Adicionar cluster' )->render( 'forms/cluster' );
             return;
         }
 
         // verifica se o dado foi salvo
-        if ( $departamento->save() ) {
-            redirect( site_url( 'departamentos/index' ) );
+        if ( $cluster->save() ) {
+            redirect( site_url( 'clusters' ) );
         }
+    }
+
+    public function importar_planilha() {
+
+        // importa a planilha
+        $this->load->library( 'Planilhas' );
+
+        // faz o upload da planilha
+        $planilha = $this->planilhas->upload();
+
+        // tenta fazer o upload
+        if ( !$planilha ) {
+
+            // seta os erros
+            $this->view->set( 'errors', $this->planilhas->errors );
+        }
+
+        $planilha->excluir();
     }
 }

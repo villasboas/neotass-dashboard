@@ -1,17 +1,17 @@
 <?php
 
-require 'application/models/Carteira.php';
+require 'application/models/Cluster.php';
 
-class CarteirasFinder extends MY_Model {
+class ClustersFinder extends MY_Model {
 
     // entidade
-    public $entity = 'Carteira';
+    public $entity = 'Cluster';
 
     // tabela
-    public $table = 'Carteiras';
+    public $table = 'Clusters';
 
     // chave primaria
-    public $primaryKey = 'CodCarteira';
+    public $primaryKey = 'CodCluster';
 
     // labels
     public $labels = [
@@ -29,12 +29,12 @@ class CarteirasFinder extends MY_Model {
     }
 
    /**
-    * getCarteira
+    * getCluster
     *
-    * pega a instancia da carteira
+    * pega a instancia do cluster
     *
     */
-    public function getCarteira() {
+    public function getCluster() {
         return new $this->entity();
     }
 
@@ -46,7 +46,7 @@ class CarteirasFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table )
-        ->select( 'CodCarteira as Código, Nome, CodCarteira as Clientes, CodCarteira as Ações' );
+        ->select( 'CodCluster as Código, Nome, CodCluster as Ações' );
         return $this;
     }
 }

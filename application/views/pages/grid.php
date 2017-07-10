@@ -11,14 +11,38 @@
                 <?php $view->component( 'filters' ); ?>
             </div>
         </div>
-        <?php if ( $view->item( 'add_url' ) ): ?>
-        <div class="row margin fade-in">
+        <?php if ( $view->item( 'errors' ) ): ?>
+        <div class="row fade-in">
             <div class="col-md-12">
-                <a href="<?php echo $view->item( 'add_url' ); ?>" class="btn btn-primary z-depth-2">Adicionar</a> 
+                <div class="alert alert-danger">
+                    <?php echo $view->item( 'errors' ); ?>
+                </div>
             </div>
-            <div class="col-md-12"><hr></div>
         </div>
         <?php endif; ?>
+        <div class="row margin fade-in">
+            
+            <?php if ( $view->item( 'add_url' ) ): ?>        
+            <div class="col-md-6">
+                <a href="<?php echo $view->item( 'add_url' ); ?>" class="btn btn-primary z-depth-2">Adicionar</a> 
+            </div>
+            <?php endif; ?>
+
+            <?php if ( $view->item( 'import_url' ) ): ?>
+            <?php echo form_open_multipart( $view->item( 'import_url' ), [  'id' => 'import-form', 'class' => 'col-md-6 text-right' ] ); ?>
+                <input  id="planilha" 
+                        name="planilha" 
+                        onchange="importarPlanilha( $( this ) )" 
+                        class="planilha" 
+                        type="file">
+                <label for="planilha" class="btn btn-success z-depth-2">
+                    Importar planilha
+                </label> 
+            <?php echo form_close(); ?>
+            <?php endif; ?>
+            
+            <div class="col-md-12"><hr></div>
+        </div>
         
         <div class="row fade-in">
             <div class="col-md-12">
