@@ -8,6 +8,11 @@
         <?php foreach( $view->css as $css ): ?>
         <link href="<?php echo $css; ?>" rel="stylesheet" media="screen"/>
         <?php endforeach; ?>
+        <script>
+            var Site = {
+                url: '<?php echo site_url(); ?>'
+            };
+        </script>
     </head>
     <body>
         <?php $this->load->view( 'pages/'.$view->page ); ?>

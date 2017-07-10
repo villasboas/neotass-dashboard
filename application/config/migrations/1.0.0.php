@@ -110,6 +110,10 @@ $config['schema']['Lojas'] = [
         'type'           => 'int',
         'constraint'     => '11',
     ],
+    'CNPJ' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
     'Razao' => [
         'type'       => 'varchar',
         'constraint' => '100'
@@ -134,13 +138,13 @@ $config['schema']['Lojas'] = [
         'type'       => 'varchar',
         'constraint' => '100'
     ],
-    'Cidade' => [
-        'type'       => 'varchar',
-        'constraint' => '100'
+    'CodCidade' => [
+        'type'           => 'int',
+        'constraint'     => '11',
     ],
-    'Estado' => [
-        'type'       => 'varchar',
-        'constraint' => '100'
+    'CodEstado' => [
+        'type'           => 'int',
+        'constraint'     => '11',
     ]
 ];
 
@@ -168,7 +172,15 @@ $config['schema']['Funcionarios'] = [
         'type'       => 'varchar',
         'constraint' => '100',
     ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100',
+    ],
     'Email' => [
+        'type'       => 'varchar',
+        'constraint' => '100',
+    ],
+    'Senha' => [
         'type'       => 'varchar',
         'constraint' => '100',
     ],

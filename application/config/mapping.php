@@ -37,4 +37,34 @@ $config['Cluster'] = [
     'nome'   => 'Nome',
 ];
 
+$config['Loja'] = [
+    'cluster' => 'CodCluster',
+    'cnpj' => 'CNPJ',
+    'razao' => 'Razao',
+    'nome' => 'Nome',
+    'endereco' => 'Endereco',
+    'numero' => 'Numero',
+    'complemento' => 'Complemento',
+    'bairro' => 'Bairro',
+    'cidade' => 'CodCidade',
+    'estado' => 'CodEstado'
+];
+
+$config['Funcionario'] = [
+    'loja' => 'CodLoja',
+    'uid' => 'UID',
+    'token' => 'Token',
+    'cargo' => 'Cargo',
+    'nome' => 'Nome',
+    'email' => 'Email',
+    'senha' => 'Senha',
+    'cpf' => 'CPF',
+    'pontos' => 'Pontos'
+];
+
+$config['Categoria'] = [
+    'nome'   => 'Nome',
+    'foto'   => 'Foto'
+];
+
 /* end of file */

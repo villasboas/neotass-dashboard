@@ -51,6 +51,19 @@ class CidadesFinder extends MY_Model {
         ->join( 'Estados e', 'e.CodEstado = c.CodEstado' );
         return $this;
     }
+
+    /**
+    * porEstado
+    *
+    * obtem as cidades do estado
+    *
+    */
+    public function porEstado( $CodEstado ) {
+
+        // seta o where
+        $this->where( " CodEstado = $CodEstado" );
+        return $this;
+    }
 }
 
 /* end of file */
