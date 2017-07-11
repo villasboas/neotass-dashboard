@@ -89,4 +89,81 @@ class Api extends MY_Controller {
 
         } else return $this->response->reject( 'Houve um erro ao tentar salvar o UID desse funcionário.' );
     }
+
+    /**
+    * obter_produtos_categoria
+    *
+    * busca os produtos de uma determinada categoria
+    *
+    */
+    public function obter_produtos_categoria( $CodCategoria, $indice ) {
+
+        // carrega o finder
+        $this->load->finder( [ 'ProdutosFinder', 'CategoriasFinder' ] );
+
+        // carrega o categoria
+        $categoria = $this->CategoriasFinder->key( $CodCategoria )->get( true );
+        
+        if ( !$categoria ) return $this->response->reject( 'A Categoria informada é inválida.' );
+        
+        // carrega os produtos da categoria
+        $produtos = $this->ProdutosFinder
+        ->porCategoria( $categoria->CodCategoria )
+		->paginate( $indice, 5, true );
+        if ( count( $produtos ) == 0 ) {
+            return $this->response->resolve();
+        }
+
+        // faz o mapeamento das cidades
+        $produtos = array_map( function( $produto ) {
+            return  [ 
+                        'CodProduto' => $produto->CodProduto, 
+                        'CodCategoria' => $produto->categoria,
+                        'Nome' => $produto->nome,
+                        'Pontos' => $produto->pontos,
+                        'Foto' => base_url('uploads/' .$produto->foto),
+                        'Descricao' => $produto->descricao,
+                        'Video' => $produto->video
+                    ];
+        }, $produtos );
+
+        return $this->response->resolve( $produtos );
+    }
+
+    /**
+    * obter_categorias
+    *
+    * busca todas categorias
+    *
+    */
+    public function obter_categorias() {
+
+        // carrega o finder
+        $this->load->finder( [ 'CategoriasFinder' ] );
+
+        // carrega a library de request
+        $this->load->library( [ 'Request', 'Response' ] );
+
+        // carrega as categorias
+        $categorias = $this->CategoriasFinder->get();
+        
+        if ( !$categorias ) return $this->response->reject( 'Não tem categorias.' );
+
+        if ( count( $categorias ) == 0 ) {
+            return $this->response->resolve();
+        }
+
+        // faz o mapeamento das cidades
+        $categorias = array_map( function( $categoria ) {
+            return  [ 
+                        'CodCategoria' => $categoria->CodCategoria,
+                        'Nome' => $categoria->nome,
+                        'Foto' => base_url('uploads/' .$categoria->foto)
+                    ];
+        }, $categorias );
+
+        return $this->response->resolve( $categorias );
+    }
+
+
 }
