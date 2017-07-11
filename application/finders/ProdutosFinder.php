@@ -53,6 +53,19 @@ class ProdutosFinder extends MY_Model {
         ->join('Categorias c', 'c.CodCategoria = p.CodCategoria');
         return $this;
     }
+
+     /**
+    * porCategoria
+    *
+    * obtem os produtos por categoria
+    *
+    */
+    public function porCategoria( $CodCategoria ) {
+
+        // seta o where
+        $this->where( " CodCategoria = $CodCategoria " );
+        return $this;
+    }
 }
 
 /* end of file */
