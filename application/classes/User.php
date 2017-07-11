@@ -272,7 +272,7 @@ class User {
         ];
 
         // faz o update
-        $this->db->where( "uid = '$this->data['uid']'" );
+        $this->db->where( "uid = '".$this->data['uid']."'" );
         return $this->db->update( $this->config->item( 'users' )['table'], $data );
     }
 }
