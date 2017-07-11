@@ -72,6 +72,12 @@ class MY_Controller extends CI_Controller {
         };
     }
 
+   /**
+    * valid_cnpj
+    *
+    * verifica se um cnpj eh valido
+    *
+    */
     function valid_cnpj($str) {
         if (strlen($str) > 18 || strlen($str) < 14) {
             $this->form_validation->set_message('valid_cnpj','Cnpj inválido!');
@@ -107,6 +113,52 @@ class MY_Controller extends CI_Controller {
                 return false;
             }
         }
+    }
+
+   /**
+    * valid_cpf
+    *
+    * verifica se um cpf eh valido
+    *
+    */
+    function valid_cpf( $cpf ) {
+
+        // retira pontuacoes
+        $cpf = preg_replace('/[^0-9]/', '', (string) $cpf);
+        
+        // Valida tamanho
+        if ( strlen($cpf) != 11 ) return false;
+
+        // verifica se nao eh invalido
+        $invalidos = [  '00000000000',
+                        '11111111111',
+                        '22222222222',
+                        '33333333333',
+                        '44444444444',
+                        '55555555555',
+                        '66666666666',
+                        '77777777777',
+                        '88888888888',
+                        '99999999999'];
+        if ( in_array( $cpf, $invalidos ) ) return false;
+
+        // Calcula e confere primeiro dígito verificador
+        for ($i = 0, $j = 10, $soma = 0; $i < 9; $i++, $j--) $soma += $cpf{$i} * $j;
+
+        // pega o resto
+        $resto = $soma % 11;
+
+        // verifica o resto
+        if ( $cpf{9} != ( $resto < 2 ? 0 : 11 - $resto ) ) return false;
+
+        // Calcula e confere segundo dígito verificador
+        for ($i = 0, $j = 11, $soma = 0; $i < 10; $i++, $j--) $soma += $cpf{$i} * $j;
+
+        // pega o resto
+        $resto = $soma % 11;
+
+        // verifica o resto
+        return $cpf{10} == ( $resto < 2 ? 0 : 11 - $resto );
     }
 }
 
