@@ -292,13 +292,13 @@ class MY_Model extends CI_Model {
     * pagina os resultados
     *
     */
-    public function paginate( $offset = 0, $qtde = 20, $return = false ) {
+    public function paginate( $page = 0, $qtde = 20, $return = false ) {
 
         // seta os resultados como zero
         $this->count = 0;
 
         // seta a pagina
-        $page = $this->input->get( 'page' ) ? $this->input->get( 'page' ) : 1;
+        $page = $this->input->get( 'page' ) ? $this->input->get( 'page' ) : $page;
         $this->page = $page;
         $this->offset = ( $page - 1 ) * $qtde;
 
