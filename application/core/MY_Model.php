@@ -305,6 +305,9 @@ class MY_Model extends CI_Model {
         // seta a quantidade por pagina
         $this->perPage = $qtde;
 
+        // seta o offset
+        $this->offset = $this->offset < 0 ? 0 : $this->offset;
+
         // seta o limite
         $this->db->limit( $this->perPage, $this->offset );
 
