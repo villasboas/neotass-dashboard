@@ -95,7 +95,6 @@ class Funcionario extends MY_Model {
     public function setPontos( $pontos ) {
         $this->pontos = $pontos;
     }
-
 }
 
 /* end of file */

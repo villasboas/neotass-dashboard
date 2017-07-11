@@ -74,9 +74,10 @@ class Api extends MY_Controller {
         // pega o uid
         $uid = $this->input->post( 'uid' );
         if ( !$uid ) return $this->response->reject( 'Nenhum UID informado.' );
+        $func->setUid( $uid );
 
         // faz o update
-        if ( $func->adicionarUid( $uid ) ) {
+        if ( $func->save() ) {
 
             // devolve o funcionario
             $data = [
