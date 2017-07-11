@@ -67,7 +67,7 @@ class Picture {
     public function delete( $name ) {
 
         // verifica se o arquivo existe
-        if ( file_exists( $this->path.$name ) ) {
+        if ( $name && file_exists( $this->path.$name ) ) {
             unlink( $this->path.$name );
         }
     }

@@ -89,7 +89,7 @@ class Estados extends MY_Controller {
     public function adicionar() {
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar estado' )->render( 'forms/estado' );
+        $this->view->setTitle( 'Samsung - Adicionar estado' )->render( 'forms/estado' );
     }
 
    /**
@@ -113,7 +113,7 @@ class Estados extends MY_Controller {
         $this->view->set( 'estado', $estado );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Alterar estado' )->render( 'forms/estado' );
+        $this->view->setTitle( 'Samsung - Alterar estado' )->render( 'forms/estado' );
     }
 
    /**
@@ -151,7 +151,7 @@ class Estados extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar estado' )->render( 'forms/estado' );
+            $this->view->setTitle( 'Samsung - Adicionar estado' )->render( 'forms/estado' );
             return;
         }
 

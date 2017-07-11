@@ -89,7 +89,7 @@ class Rotinas extends MY_Controller {
         $this->view->set( 'class', $class );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar rotina' )->render( 'forms/rotina' );
+        $this->view->setTitle( 'Samsung - Adicionar rotina' )->render( 'forms/rotina' );
     }
 
    /**
@@ -119,7 +119,7 @@ class Rotinas extends MY_Controller {
         $this->view->set( 'rotina', $rotina );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar rotina' )->render( 'forms/rotina' );
+        $this->view->setTitle( 'Samsung - Adicionar rotina' )->render( 'forms/rotina' );
     }
 
    /**
@@ -158,7 +158,7 @@ class Rotinas extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar cargo' )->render( 'forms/rotina' );
+            $this->view->setTitle( 'Samsung - Adicionar cargo' )->render( 'forms/rotina' );
             return;
         }
 

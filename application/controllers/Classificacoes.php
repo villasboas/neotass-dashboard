@@ -94,7 +94,7 @@ class Classificacoes extends MY_Controller {
     public function adicionar() {
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar classificacao' )->render( 'forms/classificacao' );
+        $this->view->setTitle( 'Samsung - Adicionar classificacao' )->render( 'forms/classificacao' );
     }
 
    /**
@@ -118,7 +118,7 @@ class Classificacoes extends MY_Controller {
         $this->view->set( 'classificacao', $classificacao );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar classificacao' )->render( 'forms/classificacao' );
+        $this->view->setTitle( 'Samsung - Adicionar classificacao' )->render( 'forms/classificacao' );
     }
 
    /**
@@ -158,7 +158,7 @@ class Classificacoes extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar classificacao' )->render( 'forms/classificacao' );
+            $this->view->setTitle( 'Samsung - Adicionar classificacao' )->render( 'forms/classificacao' );
             return;
         }
 

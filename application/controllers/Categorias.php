@@ -75,7 +75,7 @@ class Categorias extends MY_Controller {
 		})
 
 		// renderiza o grid
-		->render( site_url( 'estados/index' ) );
+		->render( site_url( 'categorias/index' ) );
 		
         // seta a url para adiciona
         $this->view->set( 'add_url', site_url( 'categorias/adicionar' ) );
@@ -127,8 +127,8 @@ class Categorias extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $categoria = $this->CategoriasFinder->getCategoria();
-        $categoria->setCod( $key );
+        $categoria = $this->CategoriasFinder->key( $key )->get( true );
+        $this->picture->delete( $categoria->foto );
         $categoria->delete();
         $this->index();
     }

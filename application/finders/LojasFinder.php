@@ -15,7 +15,7 @@ class LojasFinder extends MY_Model {
 
     // labels
     public $labels = [
-        'CodCluster' => 'Cluster',
+        'Cluster' => 'Cluster',
         'CNPJ' => 'CNPJ',
         'Razao' => 'Razao',
         'Nome' => 'Nome',
@@ -23,8 +23,8 @@ class LojasFinder extends MY_Model {
         'Numero' => 'Numero',
         'Complemento' => 'Complemento',
         'Bairro' => 'Bairro',
-        'CodCidade' => 'Cidade',
-        'CodEstado' => 'Estado'
+        'Cidade' => 'Cidade',
+        'Estado' => 'Estado'
     ];
 
    /**

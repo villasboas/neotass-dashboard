@@ -93,7 +93,7 @@ class Cidades extends MY_Controller {
         $this->view->set( 'estados', $estados );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar cidade' )->render( 'forms/cidade' );
+        $this->view->setTitle( 'Samsung - Adicionar cidade' )->render( 'forms/cidade' );
     }
 
    /**
@@ -121,7 +121,7 @@ class Cidades extends MY_Controller {
         $this->view->set( 'cidade', $cidade );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Alterar cidade' )->render( 'forms/cidade' );
+        $this->view->setTitle( 'Samsung - Alterar cidade' )->render( 'forms/cidade' );
     }
 
    /**
@@ -159,7 +159,7 @@ class Cidades extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar cidade' )->render( 'forms/cidade' );
+            $this->view->setTitle( 'Samsung - Adicionar cidade' )->render( 'forms/cidade' );
             return;
         }
 

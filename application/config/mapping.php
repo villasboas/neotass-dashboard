@@ -67,4 +67,13 @@ $config['Categoria'] = [
     'foto'   => 'Foto'
 ];
 
+$config['Produto'] = [
+    'nome'   => 'Nome',
+    'categoria'   => 'CodCategoria',
+    'descricao'   => 'Descricao',
+    'foto'   => 'Foto',
+    'pontos'   => 'Pontos',
+    'video'   => 'Video'
+];
+
 /* end of file */

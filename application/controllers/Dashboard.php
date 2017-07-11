@@ -27,7 +27,7 @@ class Dashboard extends MY_Controller {
 	public function index() {
 
         // renderiza a view de login
-        $this->view->setTitle( 'Conta Ágil - Painel de controle' )->render( 'dashboard' );
+        $this->view->setTitle( 'Samsung - Painel de controle' )->render( 'dashboard' );
     }
 
     /**

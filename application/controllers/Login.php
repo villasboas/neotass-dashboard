@@ -24,7 +24,7 @@ class Login extends MY_Controller {
 	public function index() {
         
         // renderiza a view de login
-        $this->view->setTitle( 'Conta Ágil - Login' )->render( 'login' );
+        $this->view->setTitle( 'Samsung - Login' )->render( 'login' );
     }
 
    /**

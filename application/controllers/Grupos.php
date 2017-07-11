@@ -83,7 +83,7 @@ class Grupos extends MY_Controller {
     public function adicionar() {
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
+        $this->view->setTitle( 'Samsung - Adicionar grupo' )->render( 'forms/grupo' );
     }
 
    /**
@@ -107,7 +107,7 @@ class Grupos extends MY_Controller {
         $this->view->set( 'grupo', $grupo );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
+        $this->view->setTitle( 'Samsung - Adicionar grupo' )->render( 'forms/grupo' );
     }
 
    /**
@@ -144,7 +144,7 @@ class Grupos extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
+            $this->view->setTitle( 'Samsung - Adicionar grupo' )->render( 'forms/grupo' );
             return;
         }
 

@@ -96,7 +96,7 @@ class Usuarios extends MY_Controller {
         $this->view->set( 'grupos', $grupos );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar usuario' )->render( 'forms/usuario' );
+        $this->view->setTitle( 'Samsung - Adicionar usuario' )->render( 'forms/usuario' );
     }
 
    /**
@@ -126,7 +126,7 @@ class Usuarios extends MY_Controller {
         $this->view->set( 'usuario', $usuario );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar rotina' )->render( 'forms/usuario' );
+        $this->view->setTitle( 'Samsung - Adicionar rotina' )->render( 'forms/usuario' );
     }
 
    /**
@@ -171,7 +171,7 @@ class Usuarios extends MY_Controller {
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar usuario' )->render( 'forms/usuario' );
+            $this->view->setTitle( 'Samsung - Adicionar usuario' )->render( 'forms/usuario' );
             return;
         }
 
@@ -189,7 +189,7 @@ class Usuarios extends MY_Controller {
                 $this->view->set( 'errors', $erro );
 
                 // carrega a view de adicionar
-                $this->view->setTitle( 'Conta Ágil - Adicionar usuario' )->render( 'forms/usuario' );
+                $this->view->setTitle( 'Samsung - Adicionar usuario' )->render( 'forms/usuario' );
                 return;
             } else {
                 
@@ -212,7 +212,7 @@ class Usuarios extends MY_Controller {
                 $this->view->set( 'errors', 'O e-mail digitado já está em uso.' );
 
                 // carrega a view de adicionar
-                $this->view->setTitle( 'Conta Ágil - Adicionar usuario' )->render( 'forms/usuario' );
+                $this->view->setTitle( 'Samsung - Adicionar usuario' )->render( 'forms/usuario' );
                 return;
             } else $user->updateUser( $usuario );
         } else if ( $user->loadByUid( $usuario->uid )->isLoaded() ) {

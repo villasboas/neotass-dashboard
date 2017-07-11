@@ -224,6 +224,10 @@ $config['schema']['Produtos'] = [
         'primary_key'    => TRUE,
         'auto_increment' => TRUE,
     ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '255'
+    ],
     'CodCategoria' => [
         'type'       => 'int',
         'constraint' => '11'
@@ -231,7 +235,7 @@ $config['schema']['Produtos'] = [
     'Descricao' => [
         'type' => 'text'
     ],
-    'Fotos' => [
+    'Foto' => [
         'type'       => 'varchar',
         'constraint' => '255'
     ],
