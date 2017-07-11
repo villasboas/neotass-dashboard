@@ -15,6 +15,9 @@ class Response {
 
         // pega a instancia do ci
         $this->ci =& get_instance();
+
+        // seta o header
+        header( 'Access-Control-Allow-Origin: *' );
     }
 
    /**
