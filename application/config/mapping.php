@@ -57,7 +57,6 @@ $config['Funcionario'] = [
     'cargo' => 'Cargo',
     'nome' => 'Nome',
     'email' => 'Email',
-    'senha' => 'Senha',
     'cpf' => 'CPF',
     'pontos' => 'Pontos'
 ];

@@ -23,9 +23,6 @@ class Funcionario extends MY_Model {
     // email
     public $email;
 
-    // senha
-    public $senha;
-
     // cpf
     public $cpf;
 
@@ -80,11 +77,6 @@ class Funcionario extends MY_Model {
     public function setNome( $nome ) {
         $this->nome = $nome;
     }
-
-    // senha
-    public function setSenha( $senha ) {
-        $this->senha = $senha;
-    }  
 
     // cpf
     public function setCpf( $cpf ) {
