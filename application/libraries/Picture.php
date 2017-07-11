@@ -78,9 +78,6 @@ class Picture {
         // configuração do upload
         $config['upload_path']   = $this->path;
         $config['allowed_types'] = 'jpg|png';
-        $config['max_size']      = 100;
-        $config['max_width']     = 1024;
-        $config['max_height']    = 768;
         $config['file_name']     = md5( uniqid( rand() * time() ) );
 
         // carrega a librarie de upload
