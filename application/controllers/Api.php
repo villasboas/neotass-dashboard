@@ -112,7 +112,7 @@ class Api extends MY_Controller {
         ->porCategoria( $categoria->CodCategoria )
 		->paginate( $indice, 5, true );
         if ( count( $produtos ) == 0 ) {
-            return $this->response->resolve();
+            return $this->response->resolve( [] );
         }
 
         // faz o mapeamento das cidades
@@ -151,7 +151,7 @@ class Api extends MY_Controller {
         if ( !$categorias ) return $this->response->reject( 'Não tem categorias.' );
 
         if ( count( $categorias ) == 0 ) {
-            return $this->response->resolve();
+            return $this->response->resolve( [] );
         }
 
         // faz o mapeamento das cidades
