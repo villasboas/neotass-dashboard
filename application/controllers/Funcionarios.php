@@ -79,8 +79,8 @@ class Funcionarios extends MY_Controller {
 
 		// seta as funcoes nas colunas
 		->onApply( 'Ações', function( $row, $key ) {
-			echo '<a href="'.site_url( 'funcionarios/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
-			echo '<a href="'.site_url( 'funcionarios/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+			echo '<a href="'.site_url( 'funcionarios/alterar/'.$row[$key] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'funcionarios/excluir/'.$row[$key] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
 		})
 
         // formata o Cnpj para exibicao
@@ -201,5 +201,70 @@ class Funcionarios extends MY_Controller {
         if ( $funcionario->save() ) {
             redirect( site_url( 'funcionarios/index' ) );
         }
+    }
+
+   /**
+    * verificar_cpf
+    *
+    * verifica se existe um cpf para o usuario digitado
+    *
+    */
+    public function verificar_cpf( $cpf ) {
+
+        // carrega a library de request
+        $this->load->library( [ 'Request', 'Response' ] );
+
+        // verifica se o cpf eh valido
+        if ( !$this->valid_cpf( $cpf ) ) return $this->response->reject( 'O CPF informado é inválido.' );
+
+        // carrega pelo cpf
+        $func = $this->FuncionariosFinder->clean()->cpf( $cpf )->get( true );
+        if ( !$func ) return $this->response->reject( 'Nenhum funcionário encontrado para esse CPF.' );
+
+        // devolve o funcionario
+        $data = [
+            'nome' => $func->nome,
+            'cpf' => $func->cpf,
+            'cargo' => $func->cargo,
+            'uid' => $func->uid            
+        ];
+        return $this->response->resolve( $data );
+    }
+
+   /**
+    * salvar_uid
+    *
+    * salva um uid para um cpf
+    *
+    */
+    public function salvar_uid( $cpf ) {
+
+        // carrega a library de request
+        $this->load->library( [ 'Request', 'Response' ] );
+
+        // verifica se o cpf eh valido
+        if ( !$this->valid_cpf( $cpf ) ) return $this->response->reject( 'O CPF informado é inválido.' );
+
+        // carrega pelo cpf
+        $func = $this->FuncionariosFinder->clean()->cpf( $cpf )->get( true );
+        if ( !$func ) return $this->response->reject( 'Nenhum funcionário encontrado para esse CPF.' );
+
+        // pega o uid
+        $uid = $this->input->post( 'uid' );
+        if ( !$uid ) return $this->response->reject( 'Nenhum UID informado.' );
+
+        // faz o update
+        if ( $func->adicionarUid( $uid ) ) {
+
+            // devolve o funcionario
+            $data = [
+                'nome' => $func->nome,
+                'cpf' => $func->cpf,
+                'cargo' => $func->cargo,
+                'uid' => $func->uid
+            ];
+            return $this->response->resolve( $data );
+
+        } else return $this->response->reject( 'Houve um erro ao tentar salvar o UID desse funcionário.' );
     }
 }

@@ -54,9 +54,20 @@ class FuncionariosFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table.' f' )
-        ->select( 'CodFuncionario as Código, f.CPF, f.Nome, f.Cargo, f.Pontos,
+        ->select( 'f.UID, f.CPF, f.Nome, f.Cargo,
          l.Nome as Loja, CodFuncionario as Ações' )
         ->join( 'Lojas l', 'l.CodLoja = f.CodLoja' );
+        return $this;
+    }
+
+   /**
+    * cpf
+    *
+    * filtra pelo cpf
+    *
+    */
+    public function cpf( $cpf ) {
+        $this->where( " CPF = $cpf" );
         return $this;
     }
 }
