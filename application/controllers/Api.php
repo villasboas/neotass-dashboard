@@ -16,6 +16,10 @@ class Api extends MY_Controller {
 
         // seta o header
         header( 'Access-Control-Allow-Origin: *' );
+
+        // adiciona o json ao post
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ( $data ) $_POST = $data; 
         
         // carrega o finder
         $this->load->library( [ 'Response', 'Request' ] );
