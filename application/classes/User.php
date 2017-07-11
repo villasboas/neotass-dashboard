@@ -265,7 +265,6 @@ class User {
 
         // pega os campos
         $tokenAlias = $this->getField( 'users', 'session_token' );
-        $uidAlias = $this->getField( 'users', 'uid' );
 
         // prepara os dados
         $data = [
@@ -273,7 +272,7 @@ class User {
         ];
 
         // faz o update
-        $this->db->where( "$uidAlias = '$this->data[$uidAlias]'" );
+        $this->db->where( "uid = '$this->data['uid']'" );
         return $this->db->update( $this->config->item( 'users' )['table'], $data );
     }
 }
