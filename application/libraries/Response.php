@@ -25,9 +25,6 @@ class Response {
     */
     public function show( $data ) {
 
-        // seta o header
-        header( 'Access-Control-Allow-Origin: *' );
-
         // envia os dados
         echo json_encode( $data );
         return;
