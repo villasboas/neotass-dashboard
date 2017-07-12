@@ -99,6 +99,6 @@ $config['Pergunta'] = [
 $config['Alternativa'] = [
     'pergunta' => 'CodPergunta',
     'texto'    => 'Texto'
-]
+];
 
 /* end of file */
