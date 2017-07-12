@@ -5,8 +5,8 @@ $config['Grupo'] = [
 ];
 
 $config['Rotina'] = [
-    'link' => 'Link',
-    'rotina' => 'Rotina',
+    'link'          => 'Link',
+    'rotina'        => 'Rotina',
     'classificacao' => 'CodClassificacao',
 ];
 
@@ -17,8 +17,8 @@ $config['Classificacao'] = [
 ];
 
 $config['Estado'] = [
-    'nome'   => 'Nome',
-    'uf' => 'Uf',
+    'nome' => 'Nome',
+    'uf'   => 'Uf',
 ];
 
 $config['Cidade'] = [
@@ -30,49 +30,75 @@ $config['Usuario'] = [
     'uid'   => 'uid',
     'email' => 'email',
     'senha' => 'password',
-    'gid' => 'gid',
+    'gid'   => 'gid',
 ];
 
 $config['Cluster'] = [
-    'nome'   => 'Nome',
+    'nome' => 'Nome',
 ];
 
 $config['Loja'] = [
-    'cluster' => 'CodCluster',
-    'cnpj' => 'CNPJ',
-    'razao' => 'Razao',
-    'nome' => 'Nome',
-    'endereco' => 'Endereco',
-    'numero' => 'Numero',
+    'cluster'     => 'CodCluster',
+    'cnpj'        => 'CNPJ',
+    'razao'       => 'Razao',
+    'nome'        => 'Nome',
+    'endereco'    => 'Endereco',
+    'numero'      => 'Numero',
     'complemento' => 'Complemento',
-    'bairro' => 'Bairro',
-    'cidade' => 'CodCidade',
-    'estado' => 'CodEstado'
+    'bairro'      => 'Bairro',
+    'cidade'      => 'CodCidade',
+    'estado'      => 'CodEstado'
 ];
 
 $config['Funcionario'] = [
-    'loja' => 'CodLoja',
-    'uid' => 'UID',
-    'token' => 'Token',
-    'cargo' => 'Cargo',
-    'nome' => 'Nome',
-    'email' => 'Email',
-    'cpf' => 'CPF',
+    'loja'   => 'CodLoja',
+    'uid'    => 'UID',
+    'token'  => 'Token',
+    'cargo'  => 'Cargo',
+    'nome'   => 'Nome',
+    'email'  => 'Email',
+    'cpf'    => 'CPF',
     'pontos' => 'Pontos'
 ];
 
 $config['Categoria'] = [
-    'nome'   => 'Nome',
-    'foto'   => 'Foto'
+    'nome' => 'Nome',
+    'foto' => 'Foto'
 ];
 
 $config['Produto'] = [
-    'nome'   => 'Nome',
-    'categoria'   => 'CodCategoria',
-    'descricao'   => 'Descricao',
-    'foto'   => 'Foto',
-    'pontos'   => 'Pontos',
-    'video'   => 'Video'
+    'nome'      => 'Nome',
+    'categoria' => 'CodCategoria',
+    'descricao' => 'Descricao',
+    'foto'      => 'Foto',
+    'pontos'    => 'Pontos',
+    'video'     => 'Video'
 ];
+
+$config['Log'] = [
+    'entidade' => 'Entidade',
+    'planilha' => 'Planilha',
+    'mensagem' => 'Mensagem',
+    'status'   => 'Status',
+    'data'     => 'Data',
+];
+
+$config['Questionario'] = [
+    'descricao' => 'Descricao',
+    'nome'      => 'Nome',
+    'foto'      => 'Foto',
+    'minimo'    => 'Minimo'
+];
+
+$config['Pergunta'] = [
+    'resposta' => 'CodAlternativa',
+    'texto'    => 'Texto',
+    'pontos'   => 'Pontos'
+];
+
+$config['Alternativa'] = [
+    'pergunta' => 'CodPergunta',
+    'texto'    => 'Texto'
+]
 
 /* end of file */

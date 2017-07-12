@@ -62,6 +62,11 @@ class LojasFinder extends MY_Model {
         ->join( 'Clusters r', 'r.CodCluster = l.CodCluster' );
         return $this;
     }
+
+    public function nome( $nome ) {
+        $this->where( " Nome = '$nome' " );
+        return $this;
+    }
 }
 
 /* end of file */

@@ -1,23 +1,20 @@
 <?php
 
-require 'application/models/Estado.php';
+require 'application/models/Questionario.php';
 
-class EstadosFinder extends MY_Model {
+class QuestionariosFinder extends MY_Model {
 
     // entidade
-    public $entity = 'Estado';
+    public $entity = 'Questionario';
 
     // tabela
-    public $table = 'Estados';
+    public $table = 'Questionarios';
 
     // chave primaria
-    public $primaryKey = 'CodEstado';
+    public $primaryKey = 'CodQuestionario';
 
     // labels
-    public $labels = [
-        'nome'  => 'Nome',
-        'uf' => 'UF',
-    ];
+    public $labels = [];
 
    /**
     * __construct
@@ -35,7 +32,7 @@ class EstadosFinder extends MY_Model {
     * pega a instancia do estado
     *
     */
-    public function getEstado() {
+    public function getQuestionario() {
         return new $this->entity();
     }
 
@@ -47,12 +44,7 @@ class EstadosFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table )
-        ->select( 'CodEstado as Código, Nome, Uf, CodEstado as Ações' );
-        return $this;
-    }
-
-    public function uf( $uf ) {
-        $this->where( "Uf = '$uf'" );
+        ->select( 'CodQuestionario as Código, Nome, Foto, CodQuestionario as Ações' );
         return $this;
     }
 }

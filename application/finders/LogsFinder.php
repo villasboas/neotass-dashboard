@@ -1,21 +1,21 @@
 <?php
 
-require 'application/models/Cluster.php';
+require 'application/models/Log.php';
 
-class ClustersFinder extends MY_Model {
+class LogsFinder extends MY_Model {
 
     // entidade
-    public $entity = 'Cluster';
+    public $entity = 'Log';
 
     // tabela
-    public $table = 'Clusters';
+    public $table = 'Logs';
 
     // chave primaria
-    public $primaryKey = 'CodCluster';
+    public $primaryKey = 'CodLog';
 
     // labels
     public $labels = [
-        'Nome'  => 'Nome',
+        'CodLog' => 'Código'
     ];
 
    /**
@@ -29,12 +29,12 @@ class ClustersFinder extends MY_Model {
     }
 
    /**
-    * getCluster
+    * getLog
     *
-    * pega a instancia do cluster
+    * pega a instancia do estado
     *
     */
-    public function getCluster() {
+    public function getLog() {
         return new $this->entity();
     }
 
@@ -46,12 +46,7 @@ class ClustersFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table )
-        ->select( 'CodCluster as Código, Nome, CodCluster as Ações' );
-        return $this;
-    }
-
-    public function nome( $nome ) {
-        $this->where( " Nome = '$nome'" );
+        ->select( 'CodLog, Entidade, Planilha, Mensagem, Data, Status, CodLog as Ações' );
         return $this;
     }
 }

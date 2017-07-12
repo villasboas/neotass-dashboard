@@ -69,7 +69,7 @@ class Funcionarios extends MY_Controller {
 	public function index() {
 
         // faz a paginacao
-		$this->FuncionariosFinder->grid()
+		$this->FuncionariosFinder->clean()->grid()
 
 		// seta os filtros
         ->addFilter( 'nome', 'text' )
@@ -92,7 +92,8 @@ class Funcionarios extends MY_Controller {
 		->render( site_url( 'funcionarios/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'funcionarios/adicionar' ) );
+        $this->view->set( 'add_url', site_url( 'funcionarios/adicionar' ) )
+        ->set( 'import_url', site_url( 'funcionarios/importar_planilha' ) );
 
 		// seta o titulo da pagina
 		$this->view->setTitle( 'Funcionários - listagem' )->render( 'grid' );
@@ -201,5 +202,152 @@ class Funcionarios extends MY_Controller {
         if ( $funcionario->save() ) {
             redirect( site_url( 'funcionarios/index' ) );
         }
+    }
+
+    /**
+    * verificaEntidade
+    *
+    * verifica se um entidade existe no banco
+    *
+    */
+    public function verificaEntidade( $finder, $method, $dado, $nome, $planilha, $linha, $attr, $status ) {
+
+        // carrega o finder de logs
+        $this->load->finder( 'LogsFinder' );
+
+        // verifica se nao esta vazio
+        if ( in_cell( $dado ) ) {
+
+            // carrega o finder
+            $this->load->finder( $finder );
+
+            // pega a entidade
+            if ( $entidade = $this->$finder->clean()->$method( $dado )->get( true ) ) {
+                return $entidade->$attr;
+            } else {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( $planilha )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'O campo '.$nome.' com valor '.$dado.' nao esta gravado no banco - linha '.$linha )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( $status )
+                ->save();
+
+                // retorna falso
+                return null;
+            }
+        } else {
+
+            // grava o log
+            $this->LogsFinder->getLog()
+            ->setEntidade( $planilha )
+            ->setPlanilha( $this->planilhas->filename )
+            ->setMensagem( 'Nenhum '.$nome.' encontrado - linha '.$linha )
+            ->setData( date( 'Y-m-d H:i:s', time() ) )
+            ->setStatus( $status )            
+            ->save();
+
+            // retorna falso
+            return null;
+        }
+    }
+
+   /**
+    * importar_linha
+    *
+    * importa a linha
+    *
+    */
+    public function importar_linha( $linha, $num ) {
+
+        // percorre todos os campos
+        foreach( $linha as $chave => $coluna ) {
+            $linha[$chave] = in_cell( $linha[$chave] ) ? $linha[$chave] : null;
+        }
+
+        // pega as entidades relacionaveis
+        $linha['CodLoja'] = $this->verificaEntidade( 'LojasFinder', 'nome', $linha['CNPJ(Loja)'], 'Lojas', 'Funcionarios', $num, 'CodLoja', 'I' );
+
+        // verifica se existe um nome
+        if ( !in_cell( $linha['CPF'] ) ) {
+
+            // grava o log
+            $this->LogsFinder->getLog()
+            ->setEntidade( 'Funcionarios' )
+            ->setPlanilha( $this->planilhas->filename )
+            ->setMensagem( 'Não foi possivel inserir o funcionario pois nenhum CPF foi informado - linha '.$num )
+            ->setData( date( 'Y-m-d H:i:s', time() ) )
+            ->setStatus( 'B' )            
+            ->save();
+
+        } else {
+
+            // tenta carregar a loja pelo nome
+            $func = $this->FuncionariosFinder->clean()->cpf( $linha['CPF'] )->get( true );
+
+            // verifica se carregou
+            if ( !$func ) $func = $this->FuncionariosFinder->getFuncionario();
+
+            // preenche os dados
+            $func->setCargo( $linha['Cargo'] );
+            $func->setNome( $linha['Nome'] );
+            $func->setCpf( $linha['CPF'] );
+            $func->setLoja( $linha['CodLoja'] );
+
+            // tenta salvar a loja
+            if ( $func->save() ) {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( 'Funcionarios' )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'Funcionario criada com sucesso - '.$num )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( 'S' )            
+                ->save();
+
+            } else {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( 'Funcionarios' )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'Não foi possivel inserir o funcionario - linha '.$num )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( 'B' )            
+                ->save();
+            }
+        }
+    }
+
+   /**
+    * importar_planilha
+    *
+    * importa os dados de uma planilha
+    *
+    */
+    public function importar_planilha() {
+
+        // importa a planilha
+        $this->load->library( 'Planilhas' );
+
+        // faz o upload da planilha
+        $planilha = $this->planilhas->upload();
+
+        // tenta fazer o upload
+        if ( !$planilha ) {
+            // seta os erros
+            $this->view->set( 'errors', $this->planilhas->errors );
+        } else {
+            $planilha->apply( function( $linha, $num ) {
+                $this->importar_linha( $linha, $num );
+            });
+            $planilha->excluir();
+        }
+
+        // carrega a view
+        $this->index();
     }
 }

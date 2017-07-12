@@ -107,44 +107,53 @@ $config['schema']['Lojas'] = [
         'auto_increment' => true
     ],
     'CodCluster' => [
-        'type'           => 'int',
-        'constraint'     => '11',
+        'type'       => 'int',
+        'constraint' => '11',
+        'null'       => true        
     ],
     'CNPJ' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true
     ],
     'Razao' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true        
     ],
     'Nome' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true        
     ],
     'Endereco' => [
-        'type'       => 'varchar',
-        'constraint' => '100'
+        'type' => 'text',
+        'null' => true        
     ],
     'Numero' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true
     ],
     'Complemento' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true        
     ],
     'Bairro' => [
         'type'       => 'varchar',
-        'constraint' => '100'
+        'constraint' => '100',
+        'null'       => true        
     ],
     'CodCidade' => [
-        'type'           => 'int',
-        'constraint'     => '11',
+        'type'       => 'int',
+        'constraint' => '11',
+        'null'       => true        
     ],
     'CodEstado' => [
-        'type'           => 'int',
-        'constraint'     => '11',
+        'type'       => 'int',
+        'constraint' => '11',
+        'null'       => true        
     ]
 ];
 
@@ -276,7 +285,16 @@ $config['schema']['Questionarios'] = [
         'auto_increment' => TRUE
     ],
     'Descricao' => [
-        'type'        => 'text',
+        'type' => 'text',
+    ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '255'
+    ],
+    'Foto' => [
+        'type'       => 'varchar',
+        'constraint' => '50',
+        'null'       => true
     ],
     'Minimo' => [
         'type'       => 'int',
@@ -313,6 +331,10 @@ $config['schema']['Alternativas'] = [
         'primary_key'    => TRUE,
         'auto_increment' => TRUE
     ],
+    'CodPergunta' => [
+        'type'       => 'int',
+        'constraint' => '11',
+    ],
     'Texto' => [
         'type' => 'text',
     ]
@@ -337,6 +359,34 @@ $config['schema']['Respostas'] = [
     'CodAlternativa' => [
         'type'       => 'int',
         'constraint' => '11',
+    ]
+];
+
+// Tabela de Vendas
+$config['schema']['Logs'] = [
+    'CodLog' => [
+        'type'        => 'int',
+        'constraint'  => '11',
+        'primary_key' => TRUE,
+        'auto_increment' => TRUE,
+    ],
+    'Entidade' => [
+        'type'       => 'varchar',
+        'constraint' => '255'
+    ],
+    'Planilha' => [
+        'type'       => 'varchar',
+        'constraint' => '255'
+    ],
+    'Mensagem' => [
+        'type' => 'text',
+    ],
+    'Status' => [
+        'type'       => 'varchar',
+        'constraint' => '2'
+    ],
+    'Data' => [
+        'type' => 'date',
     ]
 ];
 

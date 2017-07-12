@@ -64,6 +64,13 @@ class CidadesFinder extends MY_Model {
         $this->where( " CodEstado = $CodEstado" );
         return $this;
     }
+
+    public function nome( $nome ) {
+        
+        // seta o where
+        $this->where( " Nome = '$nome' " );
+        return $this;
+    }
 }
 
 /* end of file */

@@ -165,6 +165,4 @@ class Api extends MY_Controller {
 
         return $this->response->resolve( $categorias );
     }
-
-
 }

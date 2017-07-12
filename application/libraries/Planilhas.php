@@ -35,38 +35,47 @@ class Planilhas {
         $this->ci =& get_instance();
     }
 
-    private function setHeader( $line ) {
-
-        // pega as partes
-        $this->header = explode( ',', $line );
-    }
-
-    private function load() {
+    public function apply( $callback ) {
 
         // path url
         $path = './uploads/'.$this->filename;
 
-        // abre o arquivo
-        $file = file( $path );
+        // pega o header do arquivo
+        $header = [];
 
-        // pega a primeria linha
-        $linha = $file[0];
-        $this->setHeader( $linha );
-
+        // inicializa a linha
         $row = 1;
         if ( ( $handle = fopen( $path, "r" ) ) !== FALSE ) {
             while ( ( $data = fgetcsv($handle, 1000, "," ) ) !== FALSE ) {
-                $num = count($data);
-                echo "<p> $num campos na linha $row: <br /></p>\n";
-                $row++;
-                for ($c=0; $c < $num; $c++) {
-                    echo $data[$c] . "<br />\n";
+
+                // verifica se é a primeira linha
+                if ( $row == 1 ) {
+
+                    // pega o cabecalho
+                    $header = $data;
+                } else {
+
+                    // pega a quatidade de itens na linha
+                    $num = count($data);
+
+                    // array de resposta
+                    $res = [];
+
+                    // percorre cada um deles
+                    for ( $c=0; $c < $num; $c++ ) {
+                        $key = str_replace( ' ', '', $header[$c] );
+                        $res[$key] = $data[$c];
+                    }
+
+                    // aplica o callback
+                    $callback( $res, $row );
                 }
+
+                // soma a linha
+                $row++;                
             }
             fclose($handle);
         }
-
-        die( var_dump( $this->linhas ) );
     }
 
    /**
@@ -94,7 +103,6 @@ class Planilhas {
         } else {
             $data = $this->ci->upload->data();
             $this->filename = $data['file_name'];
-            $this->load();
             return $this;
         }
     }

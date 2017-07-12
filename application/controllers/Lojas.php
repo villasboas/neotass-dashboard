@@ -112,12 +112,19 @@ class Lojas extends MY_Controller {
 		->render( site_url( 'lojas/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'lojas/adicionar' ) );
+        $this->view->set( 'add_url', site_url( 'lojas/adicionar' ) )
+        ->set( 'import_url', site_url( 'lojas/importar_planilha' ) );
 
 		// seta o titulo da pagina
 		$this->view->setTitle( 'Lojas - listagem' )->render( 'grid' );
     }
 
+   /**
+    * obter_cidades_estado
+    *
+    * obtem as cidades de um estado
+    *
+    */
     public function obter_cidades_estado( $CodEstado ) {
 
         // carrega o estado
@@ -272,5 +279,156 @@ class Lojas extends MY_Controller {
         if ( $loja->save() ) {
             redirect( site_url( 'lojas/index' ) );
         }
+    }
+
+   /**
+    * verificaEntidade
+    *
+    * verifica se um entidade existe no banco
+    *
+    */
+    public function verificaEntidade( $finder, $method, $dado, $nome, $planilha, $linha, $attr, $status ) {
+
+        // carrega o finder de logs
+        $this->load->finder( 'LogsFinder' );
+
+        // verifica se nao esta vazio
+        if ( in_cell( $dado ) ) {
+
+            // carrega o finder
+            $this->load->finder( $finder );
+
+            // pega a entidade
+            if ( $entidade = $this->$finder->clean()->$method( $dado )->get( true ) ) {
+                return $entidade->$attr;
+            } else {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( $planilha )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'O campo '.$nome.' com valor '.$dado.' nao esta gravado no banco - linha '.$linha )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( $status )
+                ->save();
+
+                // retorna falso
+                return null;
+            }
+        } else {
+
+            // grava o log
+            $this->LogsFinder->getLog()
+            ->setEntidade( $planilha )
+            ->setPlanilha( $this->planilhas->filename )
+            ->setMensagem( 'Nenhum '.$nome.' encontrado - linha '.$linha )
+            ->setData( date( 'Y-m-d H:i:s', time() ) )
+            ->setStatus( $status )            
+            ->save();
+
+            // retorna falso
+            return null;
+        }
+    }
+
+   /**
+    * importar_linha
+    *
+    * importa a linha
+    *
+    */
+    public function importar_linha( $linha, $num ) {
+
+        // percorre todos os campos
+        foreach( $linha as $chave => $coluna ) {
+            $linha[$chave] = in_cell( $linha[$chave] ) ? $linha[$chave] : null;
+        }
+
+        // pega as entidades relacionaveis
+        $linha['CodEstado'] = $this->verificaEntidade( 'EstadosFinder', 'uf', $linha['Estado'], 'Estados', 'Lojas', $num, 'CodEstado', 'I' );
+        $linha['CodCidade'] = $this->verificaEntidade( 'CidadesFinder', 'nome', $linha['Cidade'], 'Cidades', 'Lojas', $num, 'CodCidade', 'I' );
+        $linha['CodCluster'] = $this->verificaEntidade( 'ClustersFinder', 'nome', $linha['Cluster'], 'Clusters', 'Lojas', $num, 'CodCluster', 'I' );
+
+        // verifica se existe um nome
+        if ( !in_cell( $linha['NomeFantasia'] ) ) {
+
+            // grava o log
+            $this->LogsFinder->getLog()
+            ->setEntidade( 'Lojas' )
+            ->setPlanilha( $this->planilhas->filename )
+            ->setMensagem( 'Não foi possivel inserir a loja pois nenhum nome foi informado - linha '.$num )
+            ->setData( date( 'Y-m-d H:i:s', time() ) )
+            ->setStatus( 'B' )            
+            ->save();
+
+        } else {
+
+            // tenta carregar a loja pelo nome
+            $loja = $this->LojasFinder->clean()->nome( $linha['NomeFantasia'] )->get( true );
+
+            // verifica se carregou
+            if ( !$loja ) $loja = $this->LojasFinder->getLoja();
+
+            // preenche os dados
+            $loja->setRazao( $linha['RazãoSocial'] );
+            $loja->setCNPJ( null );
+            $loja->setNome( $linha['NomeFantasia'] );
+            $loja->setCluster( $linha['CodCluster'] );
+            $loja->setCidade( $linha['CodCidade'] );
+            $loja->setEstado( $linha['CodEstado'] );
+
+            // tenta salvar a loja
+            if ( $loja->save() ) {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( 'Lojas' )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'Loja criada com sucesso - '.$num )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( 'S' )            
+                ->save();
+
+            } else {
+
+                // grava o log
+                $this->LogsFinder->getLog()
+                ->setEntidade( 'Lojas' )
+                ->setPlanilha( $this->planilhas->filename )
+                ->setMensagem( 'Não foi possivel inserir a loja - linha '.$num )
+                ->setData( date( 'Y-m-d H:i:s', time() ) )
+                ->setStatus( 'B' )            
+                ->save();
+            }
+        }
+    }
+
+   /**
+    * importar_planilha
+    *
+    * importa os dados de uma planilha
+    *
+    */
+    public function importar_planilha() {
+
+        // importa a planilha
+        $this->load->library( 'Planilhas' );
+
+        // faz o upload da planilha
+        $planilha = $this->planilhas->upload();
+
+        // tenta fazer o upload
+        if ( !$planilha ) {
+            // seta os erros
+            $this->view->set( 'errors', $this->planilhas->errors );
+        } else {
+            $planilha->apply( function( $linha, $num ) {
+                $this->importar_linha( $linha, $num );
+            });
+            $planilha->excluir();
+        }
+
+        // carrega a view
+        $this->index();
     }
 }

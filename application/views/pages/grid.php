@@ -33,7 +33,7 @@
                 <input  id="planilha" 
                         name="planilha" 
                         onchange="importarPlanilha( $( this ) )" 
-                        class="planilha" 
+                        class="planilha hidden" 
                         type="file">
                 <label for="planilha" class="btn btn-success z-depth-2">
                     Importar planilha

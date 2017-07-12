@@ -61,3 +61,26 @@ if ( ! function_exists( 'mascara_telefone' ) ) {
         return $dd.' '.$prefix.'-'.$pos;
     }
 }
+
+/**
+ * in_cell
+ *
+ * verifica se existe
+ *
+ */
+if ( ! function_exists( 'in_cell' ) ) {
+    function in_cell( $val ) {
+
+        // verifica se existe
+        if ( !$val ) return false;
+
+        // verificia o tamanho
+        if ( strlen( $val ) == 0 ) return false;
+
+        // verifica o conteudo
+        if ( $val == '0' ) return false;
+
+        // volta true por padrao
+        return true;
+    }
+}
