@@ -91,7 +91,7 @@ class Api extends MY_Controller {
         } else return $this->response->reject( 'Houve um erro ao tentar salvar o UID desse funcionário.' );
     }
 
-    /**
+   /**
     * obter_produtos_categoria
     *
     * busca os produtos de uma determinada categoria
@@ -131,7 +131,7 @@ class Api extends MY_Controller {
         return $this->response->resolve( $produtos );
     }
 
-    /**
+   /**
     * obter_categorias
     *
     * busca todas categorias
@@ -164,5 +164,38 @@ class Api extends MY_Controller {
         }, $categorias );
 
         return $this->response->resolve( $categorias );
+    }
+
+   /**
+    * obter_questionarios
+    *
+    * lista os questionarios
+    *
+    */
+    public function obter_questionarios( $indice ) {
+
+        // carrega o finder
+        $this->load->finder( [ 'QuestionariosFinder' ] );
+
+        // carrega os produtos da categoria
+        $questionarios = $this->QuestionariosFinder
+		->paginate( $indice, 5, true );
+
+        // verifica se existem questionarios
+        if ( count( $questionarios ) == 0 ) {
+            return $this->response->resolve( [] );
+        }
+
+        // faz o mapeamento das cidades
+        $questionarios = array_map( function( $questionario ) {
+            return  [ 
+                        'CodQuestionario' => $questionario->CodProduto, 
+                        'Nome'            => $questionario->nome,
+                        'Foto'            => base_url( 'uploads/' .$questionario->foto ),                        
+                        'Descricao'       => $questionario->descricao
+                    ];
+        }, $questionarios );
+
+        return $this->response->resolve( $questionarios );
     }
 }

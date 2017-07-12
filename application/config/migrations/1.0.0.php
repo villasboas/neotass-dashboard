@@ -310,9 +310,13 @@ $config['schema']['Perguntas'] = [
         'primary_key'    => TRUE,
         'auto_increment' => TRUE
     ],
-    'CodAlternativa' => [
+    'CodQuestionario' => [
         'type'       => 'int',
         'constraint' => '11'
+    ],
+    'Resposta' => [
+        'type'       => 'int',
+        'constraint' => '1'
     ],
     'Texto' => [
         'type'       => 'text',
@@ -320,23 +324,22 @@ $config['schema']['Perguntas'] = [
     'Pontos' => [
         'type'       => 'int',
         'constraint' => '11'
-    ]
-];
-
-// Tabela Alternativas
-$config['schema']['Alternativas'] = [
-    'CodAlternativa' => [
-        'type'           => 'int',
-        'constraint'     => '11',
-        'primary_key'    => TRUE,
-        'auto_increment' => TRUE
     ],
-    'CodPergunta' => [
-        'type'       => 'int',
-        'constraint' => '11',
-    ],
-    'Texto' => [
+    'Alternativa1' => [
         'type' => 'text',
+        'null' => true        
+    ],
+    'Alternativa2' => [
+        'type' => 'text',
+        'null' => true        
+    ],
+    'Alternativa3' => [
+        'type' => 'text',
+        'null' => true
+    ],
+    'Alternativa4' => [
+        'type' => 'text',
+        'null' => true
     ]
 ];
 
@@ -356,9 +359,9 @@ $config['schema']['Respostas'] = [
         'type'       => 'int',
         'constraint' => '11',
     ],
-    'CodAlternativa' => [
+    'Alternativa' => [
         'type'       => 'int',
-        'constraint' => '11',
+        'constraint' => '1',
     ]
 ];
 

@@ -91,9 +91,14 @@ $config['Questionario'] = [
 ];
 
 $config['Pergunta'] = [
-    'resposta' => 'CodAlternativa',
-    'texto'    => 'Texto',
-    'pontos'   => 'Pontos'
+    'resposta'     => 'Resposta',
+    'texto'        => 'Texto',
+    'pontos'       => 'Pontos',
+    'questionario' => 'CodQuestionario',
+    'alternativa1' => 'Alternativa1',
+    'alternativa2' => 'Alternativa2',
+    'alternativa3' => 'Alternativa3',
+    'alternativa4' => 'Alternativa4',
 ];
 
 $config['Alternativa'] = [
